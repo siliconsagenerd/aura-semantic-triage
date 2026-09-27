@@ -53,6 +53,9 @@ const highPriorityMessages = ref([])
 const toastMessage = ref('')
 const toastType = ref('success')
 const showToast = ref(false)
+const newMessageText = ref('')
+const newMessagePlatform = ref('Manual')
+const messageError = ref('')
 
 const apiUrl = 'http://localhost:8000'
 
