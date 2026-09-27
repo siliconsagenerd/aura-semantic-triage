@@ -51,15 +51,13 @@ const isAnalyzing = ref(false)
 const analytics = ref({})
 const highPriorityMessages = ref([])
 const toastMessage = ref('')
-const toastType = ref('success') // 'success', 'error', 'info'
+const toastType = ref('success')
 const showToast = ref(false)
 
 const apiUrl = 'http://localhost:8000'
 
-// Auto-increment ID
 let nextId = 5
 
-// Computed
 const filteredIncoming = computed(() => {
   if (selectedPlatform.value === 'All') return incomingMessages.value
   return incomingMessages.value.filter(m => m.platform === selectedPlatform.value)
@@ -69,7 +67,6 @@ const unprocessedCount = computed(() => incomingMessages.value.length)
 const processedCount = computed(() => processedMessages.value.length)
 const highPriorityCount = computed(() => analytics.value.high_priority_count || 0)
 
-// Toast notification
 const showNotification = (msg, type = 'success', duration = 3000) => {
   toastMessage.value = msg
   toastType.value = type
@@ -79,7 +76,6 @@ const showNotification = (msg, type = 'success', duration = 3000) => {
   }, duration)
 }
 
-// Fetch analytics
 const loadAnalytics = async () => {
   try {
     const response = await fetch(`${apiUrl}/api/analytics`)
@@ -92,7 +88,6 @@ const loadAnalytics = async () => {
   }
 }
 
-// Fetch high priority
 const loadHighPriority = async () => {
   try {
     const response = await fetch(`${apiUrl}/api/messages/high-priority`)
@@ -111,7 +106,6 @@ const refreshAll = async () => {
   showNotification('Data refreshed', 'success')
 }
 
-// Validate message input
 const validateMessage = (msg) => {
   if (!msg.text || msg.text.trim().length < 5) {
     throw new Error("Message must be at least 5 characters long")
@@ -128,7 +122,6 @@ const validateMessage = (msg) => {
   }
 }
 
-// Triage single message (stay on inbox)
 const triageMessage = async (msg) => {
   isAnalyzing.value = true
   try {
@@ -175,7 +168,6 @@ const triageMessage = async (msg) => {
   isAnalyzing.value = false
 }
 
-// Batch triage
 const batchTriage = async () => {
   if (incomingMessages.value.length === 0) {
     showNotification("No messages to analyze", 'info')
@@ -229,7 +221,6 @@ const batchTriage = async () => {
   isAnalyzing.value = false
 }
 
-// Clear history
 const clearHistory = async () => {
   if (!confirm("Clear all message history? This cannot be undone.")) return
   
@@ -248,11 +239,6 @@ const clearHistory = async () => {
     showNotification(`Error: ${error.message}`, 'error')
   }
 }
-
-// Add manual message
-const newMessageText = ref('')
-const newMessagePlatform = ref('Manual')
-const messageError = ref('')
 
 const addManualMessage = () => {
   messageError.value = ''
@@ -279,7 +265,6 @@ const addManualMessage = () => {
   }
 }
 
-// Refresh with random new messages (5-20 new, max 20 total, keep existing)
 const refreshWithNewMessages = () => {
   const platforms = ['Instagram', 'Facebook', 'Twitter', 'LinkedIn', 'DM']
   const newCount = Math.floor(Math.random() * 16) + 5 // 5-20 new messages
@@ -296,7 +281,6 @@ const refreshWithNewMessages = () => {
     })
   }
   
-  // Keep max 20 total (remove oldest if exceeds)
   if (incomingMessages.value.length > 20) {
     incomingMessages.value = incomingMessages.value.slice(-20)
   }
@@ -304,7 +288,6 @@ const refreshWithNewMessages = () => {
   showNotification(`Added ${Math.min(newCount, 20)} new messages`, 'info')
 }
 
-// Styling
 const getUrgencyColor = (urgency) => {
   if (urgency === 'High') return 'bg-red-500/20 text-red-400 border-red-500/30'
   if (urgency === 'Medium') return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
@@ -322,7 +305,6 @@ const getEmotionIntensity = (score) => {
 <template>
   <div class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-200 font-sans">
 
-    <!-- Toast Notification -->
     <transition name="slide-up">
       <div v-if="showToast" :class="['fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg border z-50 animate-pulse', 
         toastType === 'success' ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400' :
@@ -374,7 +356,6 @@ const getEmotionIntensity = (score) => {
 
     <main class="max-w-7xl mx-auto px-4 md:px-8 py-8">
 
-      <!-- INBOX TAB -->
       <section v-show="activeTab === 'inbox'" class="space-y-6">
         <!-- Add Manual Message -->
         <div class="bg-slate-800/40 rounded-xl p-6 border border-slate-700/50">
@@ -451,7 +432,6 @@ const getEmotionIntensity = (score) => {
         </div>
       </section>
 
-      <!-- RESULTS TAB -->
       <section v-show="activeTab === 'results'" class="space-y-4">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-semibold text-white flex items-center gap-2">
@@ -517,7 +497,6 @@ const getEmotionIntensity = (score) => {
         </div>
       </section>
 
-      <!-- ANALYTICS TAB -->
       <section v-show="activeTab === 'analytics'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- KPI Cards -->
         <div class="bg-slate-800/40 rounded-xl p-6 border border-slate-700/50">
@@ -572,7 +551,6 @@ const getEmotionIntensity = (score) => {
         </div>
       </section>
 
-      <!-- CRITICAL TAB -->
       <section v-show="activeTab === 'critical'" class="space-y-4">
         <h2 class="text-lg font-semibold text-white flex items-center gap-2 mb-4">
           <ShieldExclamationIcon class="w-5 h-5 text-red-400" />
