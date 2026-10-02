@@ -1,11 +1,10 @@
 # Aura – Semantic Message Triage System
-
-# Aura - Semantic Message Triage System
-
-![Visitors](https://api.visitorbadge.io/api/visitors?path=siliconsagenerd%2Faura-semantic-triage&countColor=%23263759)
-![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?logo=fastapi)
-![Vue 3](https://img.shields.io/badge/Vue.js-3.x-4FC08D?logo=vuedotjs)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org)
+[![Vue 3](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=flat&logo=vuedotjs&logoColor=white)](https://vuejs.org)
+[![Gemini AI](https://img.shields.io/badge/Gemini%201.5%20Flash-Google%20AI-8E75B2?style=flat&logo=google)](https://ai.google.dev)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com)
+[![SQLite](https://img.shields.io/badge/SQLite-SQLAlchemy-003B57?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org)
 
 [Deutsch](#deutsch) | [English](#english)
 
