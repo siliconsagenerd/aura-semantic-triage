@@ -1,5 +1,12 @@
 # Aura – Semantic Message Triage System
 
+# Aura - Semantic Message Triage System
+
+![Visitors](https://api.visitorbadge.io/api/visitors?path=siliconsagenerd%2Faura-semantic-triage&countColor=%23263759)
+![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?logo=fastapi)
+![Vue 3](https://img.shields.io/badge/Vue.js-3.x-4FC08D?logo=vuedotjs)
+
 [Deutsch](#deutsch) | [English](#english)
 
 ---
