@@ -14,7 +14,7 @@
 
 ### Overview
 
-Aura is an AI-powered message triage system designed for a grief counseling agency. It automatically analyzes incoming social media messages and categorizes them by urgency, sentiment, and emotional intensity using Google's Gemini API. Built with FastAPI (Python), Vue 3, and Docker.
+Aura is an AI-powered message triage system for high-sensitivity social media communication. It automatically analyzes incoming messages and categorizes them by urgency, sentiment, and emotional intensity using Google's Gemini API. Built with FastAPI (Python), Vue 3, and Docker.
 
 ### Tech Stack
 
@@ -201,7 +201,7 @@ For production:
 
 ### Übersicht
 
-Aura ist ein KI-gestütztes Message-Triage-System für eine Trauer- und Gedenkbegleitung. Es analysiert automatisch eingehende Social-Media-Nachrichten und kategorisiert sie nach Dringlichkeit, Sentiment und emotionaler Intensität mithilfe von Googles Gemini API. Entwickelt mit FastAPI (Python), Vue 3 und Docker.
+Aura ist ein KI-gestütztes Message-Triage-System für hochsensible Social-Media-Kommunikation. Es analysiert automatisch eingehende Nachrichten und kategorisiert sie nach Dringlichkeit, Sentiment und emotionaler Intensität mithilfe von Googles Gemini API. Entwickelt mit FastAPI (Python), Vue 3 und Docker.
 
 ### Tech-Stack
 
