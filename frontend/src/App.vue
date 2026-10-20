@@ -179,6 +179,7 @@ const batchTriage = async () => {
   
   isAnalyzing.value = true
   try {
+    // Validate all
     incomingMessages.value.forEach(validateMessage)
     
     const response = await fetch(`${apiUrl}/api/triage/batch`, {
@@ -196,23 +197,21 @@ const batchTriage = async () => {
 
     const data = await response.json()
 
-    data.results.forEach((result) => {
-      const originalMsg = incomingMessages.value.find(m => m.id === result.message_id)
-      if (originalMsg) {
-        processedMessages.value.unshift({
-          id: result.message_id,
-          text: originalMsg.text,
-          platform: originalMsg.platform,
-          ...result.analysis,
-          suggested_reply: result.suggested_reply,
-          timestamp: new Date().toISOString()
-        })
-      }
+    // Move all to processed
+    data.results.forEach((result, idx) => {
+      processedMessages.value.unshift({
+        id: result.message_id,
+        text: incomingMessages.value[idx].text,
+        platform: incomingMessages.value[idx].platform,
+        ...result.analysis,
+        suggested_reply: result.suggested_reply,
+        timestamp: new Date().toISOString()
+      })
     })
 
-    const succeededIds = data.results.map(r => r.message_id)
-    incomingMessages.value = incomingMessages.value.filter(m => !succeededIds.includes(m.id))
+    incomingMessages.value = []
 
+    // Refresh
     await loadAnalytics()
     await loadHighPriority()
 
@@ -271,27 +270,26 @@ const addManualMessage = () => {
 
 const refreshWithNewMessages = () => {
   const platforms = ['Instagram', 'Facebook', 'Twitter', 'LinkedIn', 'DM']
-  const newCount = Math.floor(Math.random() * 16) + 5
-
+  const newCount = Math.floor(Math.random() * 16) + 5 // 5-20 new messages
+  
   for (let i = 0; i < newCount; i++) {
     const platform = platforms[Math.floor(Math.random() * platforms.length)]
     const messages = sampleMessagesPools[platform]
     const randomMsg = messages[Math.floor(Math.random() * messages.length)]
-
-    incomingMessages.value.unshift({
+    
+    incomingMessages.value.push({
       id: nextId++,
       text: randomMsg,
       platform: platform
     })
   }
-
+  
   if (incomingMessages.value.length > 20) {
-    incomingMessages.value = incomingMessages.value.slice(0, 20)
+    incomingMessages.value = incomingMessages.value.slice(-20)
   }
-
-  showNotification(`Added ${newCount} new messages`, 'info')
+  
+  showNotification(`Added ${Math.min(newCount, 20)} new messages`, 'info')
 }
-
 
 const getUrgencyColor = (urgency) => {
   if (urgency === 'High') return 'bg-red-500/20 text-red-400 border-red-500/30'
@@ -305,10 +303,6 @@ const getEmotionIntensity = (score) => {
   if (score >= 40) return 'Moderate'
   return 'Low'
 }
-
-onMounted(() => {
-  refreshAll();
-});
 </script>
 
 <template>
@@ -340,7 +334,7 @@ onMounted(() => {
             <div :class="['w-2 h-2 rounded-full', isAnalyzing ? 'bg-yellow-400 animate-pulse' : 'bg-emerald-400']"></div>
             {{ isAnalyzing ? 'Processing...' : 'Ready' }}
           </div>
-          <button @click="refreshAll" :disabled="isAnalyzing" class="text-slate-400 hover:text-slate-200 p-2 rounded-lg hover:bg-slate-700/50 transition disabled:opacity-50">
+          <button @click="loadAnalytics" :disabled="isAnalyzing" class="text-slate-400 hover:text-slate-200 p-2 rounded-lg hover:bg-slate-700/50 transition disabled:opacity-50">
             <ArrowPathIcon class="w-5 h-5" />
           </button>
         </div>
